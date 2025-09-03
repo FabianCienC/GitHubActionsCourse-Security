@@ -7,11 +7,21 @@ jobs:
   assign-label:
     runs-on: ubuntu-latest
     steps:
+      ### This command is expose to Scrip injection
+      # - name: Assign label
+      #   run: |
+      #     issue_title="{{ github.event.issue.title }}"
+      #     if [[ "$issue_title" == *"bug"* ]]; then
+      #     echo "Issue is about a bug!"
+      #     else
+      #     echo "Issue is not about a bug"
+      #     fi
+      ### you can solve using env variables
       - name: Assign label
-        ### This command is expose to Scrip injection
+        env:
+          TITLE: ${{ github.event.issue.title }}
         run: |
-          issue_title="${{ github.event.issue.title }}"
-          if [[ "$issue_title" == *"bug"* ]]; then
+          if [[ "$TITLE" == *"bug"* ]]; then
           echo "Issue is about a bug!"
           else
           echo "Issue is not about a bug"
